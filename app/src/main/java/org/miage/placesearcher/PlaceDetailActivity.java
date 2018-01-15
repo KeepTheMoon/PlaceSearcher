@@ -53,16 +53,16 @@ public class PlaceDetailActivity extends AppCompatActivity {
         photoPickerIntent.setType("image/*");
         startActivityForResult(photoPickerIntent, SELECT_PHOTO);
     }
-    @OnClick(R.id.shareImgButton)
-    public void onClickShareImg() throws IOException {
-        Intent shareIntent = new Intent();
-        shareIntent.setAction(Intent.ACTION_SEND);
-        shareIntent.setType("image/*");
-        AssetManager assetManager = new AssetManager();
-        final File photoFile = new File(getAssets().openFd("oss.mp3"), "emeu.jpg");
-        shareIntent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(photoFile));
-        startActivity(shareIntent);
-    }
+    //@OnClick(R.id.shareImgButton)
+    //public void onClickShareImg() throws IOException {
+      //  Intent shareIntent = new Intent();
+       // shareIntent.setAction(Intent.ACTION_SEND);
+        //shareIntent.setType("image/*");
+        ///AssetManager assetManager = new AssetManager();
+        //final File photoFile = new File(getAssets().openFd("oss.mp3"), "emeu.jpg");
+       // shareIntent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(photoFile));
+       // startActivity(shareIntent);
+    //}
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent imageReturnedIntent){
         super.onActivityResult(requestCode, resultCode, imageReturnedIntent);
