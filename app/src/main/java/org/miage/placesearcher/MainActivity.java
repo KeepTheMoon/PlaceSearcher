@@ -20,6 +20,8 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -65,5 +67,11 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         // Do NOT forget to call super.onResume()
         super.onResume();
+        OkHttpClient okHttpClient = new OkHttpClient();
+        Request request = new Request.Builder()
+                .url("https://api-adresse.data.gouv.fr/search/?q=Place%20du%20commerce")
+                .build();
+
+
     }
 }

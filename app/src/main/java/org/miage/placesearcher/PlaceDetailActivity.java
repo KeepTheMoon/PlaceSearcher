@@ -1,11 +1,18 @@
 package org.miage.placesearcher;
 
 import android.content.Intent;
+import android.content.res.AssetManager;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import java.io.File;
+import java.io.IOException;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -17,8 +24,11 @@ import butterknife.OnClick;
 
 public class PlaceDetailActivity extends AppCompatActivity {
     String street;
+    private final int SELECT_PHOTO = 1;
     @BindView(R.id.detail_textView)
     TextView mTextView;
+    @BindView(R.id.imageView)
+    ImageView mImageView;
     @OnClick(R.id.detail_textView)
     public void textViewReturn() {
         PlaceDetailActivity.this.finish();
@@ -36,6 +46,38 @@ public class PlaceDetailActivity extends AppCompatActivity {
         sendIntent.putExtra(Intent.EXTRA_TEXT, street);
         sendIntent.setType("text/plain");
         startActivity(sendIntent);
+    }
+    @OnClick(R.id.imgButton)
+    public void onClickImg(){
+        Intent photoPickerIntent = new Intent(Intent.ACTION_GET_CONTENT);
+        photoPickerIntent.setType("image/*");
+        startActivityForResult(photoPickerIntent, SELECT_PHOTO);
+    }
+    @OnClick(R.id.shareImgButton)
+    public void onClickShareImg() throws IOException {
+        Intent shareIntent = new Intent();
+        shareIntent.setAction(Intent.ACTION_SEND);
+        shareIntent.setType("image/*");
+        AssetManager assetManager = new AssetManager();
+        final File photoFile = new File(getAssets().openFd("oss.mp3"), "emeu.jpg");
+        shareIntent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(photoFile));
+        startActivity(shareIntent);
+    }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent imageReturnedIntent){
+        super.onActivityResult(requestCode, resultCode, imageReturnedIntent);
+        switch(requestCode){
+            case SELECT_PHOTO:
+                if(resultCode == RESULT_OK){
+                    Uri selectedImage = imageReturnedIntent.getData();
+                    try {
+                        Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), selectedImage);
+                        mImageView.setImageBitmap(bitmap);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+        }
     }
 
     @Override
