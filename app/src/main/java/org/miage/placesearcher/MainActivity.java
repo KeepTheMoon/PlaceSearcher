@@ -106,7 +106,7 @@ public class MainActivity extends AppCompatActivity {
                         JSONObject jsonObject = jsonArray.getJSONObject(i);
                         JSONObject type = jsonObject.getJSONObject("properties");
                         //Log.d("result", type);
-                        Place place = new Place(0, 0, type.getString("name"), type.getString("citycode"), type.getString("city"));
+                        Place place = new Place(0, 0, type.getString("name"), type.getString("postcode"), type.getString("city"));
                         places.add(place);
                     }
                     EventBusManager.BUS.post(new SearchResultEvent(places));
